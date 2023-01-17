@@ -19,4 +19,7 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('projects.urls')),
+    # this one has no path because projects page is the homepage
+    path('users/', include('users.urls')),
+    path('api-auth/', include('rest_framework.urls')),
 ]

@@ -1,5 +1,7 @@
 from django.db import models
+from django.contrib.auth import get_user_model
 
+User = get_user_model()
 class Project(models.Model):
     title=models.CharField(max_length=200)
     description=models.TextField()
@@ -7,8 +9,12 @@ class Project(models.Model):
     image=models.URLField()
     is_open=models.BooleanField()
     date_created=models.DateTimeField(auto_now_add=True)
-    owner = models.CharField(max_length=200)
-        # will need to change this to ForeignKey after we created a user (from CharField)
+    owner = models.ForeignKey(
+        User,
+        on_delete = models.CASCADE,
+        related_name='owner_projects'
+    )
+# on_delete = models.CASCADE means that if user is deleted, then all projects and info on user gets deleted
 
 class Pledge(models.Model):
     amount=models.IntegerField()
@@ -20,4 +26,9 @@ class Pledge(models.Model):
         related_name='pledges'
     )
     # will automatically create a project_id for the project
-    supporter = models.CharField(max_length=200)
+    supporter = models.ForeignKey(
+        User,
+        on_delete = models.CASCADE,
+        related_name='supporter_pledges'
+    )
+

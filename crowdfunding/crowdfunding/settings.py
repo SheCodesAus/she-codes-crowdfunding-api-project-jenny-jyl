@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'projects.apps.ProjectsConfig',
+    'users.apps.UsersConfig',
     'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -40,6 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
+# By default, django assumes you will have users on site. Default user model is not that useful. So we will use a different model for authorisation.
+AUTH_USER_MODEL = 'users.CustomUser'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
