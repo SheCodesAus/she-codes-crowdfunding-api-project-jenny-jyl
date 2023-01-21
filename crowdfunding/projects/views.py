@@ -2,8 +2,8 @@ from django.shortcuts import render
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import Project, Pledge
-from .serializers import ProjectSerializer, PledgeSerializer, ProjectDetailSerializer
+from .models import Project, Pledge, Favorite
+from .serializers import ProjectSerializer, PledgeSerializer, ProjectDetailSerializer, DeleteProjectSerializer
 from django.http import Http404
 from rest_framework import status, generics, permissions
 from .permissions import IsOwnerOrReadOnly
@@ -70,6 +70,36 @@ class PledgeList(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(supporter=self.request.user)
+
+class DeleteProject(APIView):
+    permission_classes=[permissions.IsAuthenticatedOrReadOnly]
+    
+    def delete(self, request, pk, format=None):
+        project = self.get_object(pk)
+        project.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    def get_object(self, pk):
+        try:
+            return Project.objects.get(pk=pk)
+        except Project.DoesNotExist:
+            raise Http404
+
+
+
+# class FavoriteList(APIView):
+#     queryset = Favorite.objects.all()
+#     serializer_class = FavoriteSerializer
+
+#     def get(self, request):
+#         user = request.user
+#         queryset = self.queryset.filter(user=user)
+#         serializer = self.get_serializer(queryset, many=True)
+#         return Response(serializer.data)
+
+
+
+
 
 
 

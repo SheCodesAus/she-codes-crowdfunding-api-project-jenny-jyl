@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Project
 from .models import Pledge
+from .models import Favorite
 from location_field.models.plain import PlainLocationField
 
 
@@ -31,9 +32,14 @@ class ProjectSerializer(serializers.Serializer):
     is_open = serializers.BooleanField()
     date_created = serializers.DateTimeField(read_only=True)
     owner = serializers.ReadOnlyField(source='owner.id')
+    # is_favorite=serializers.ManyRelatedField()
 
     def create(self, validated_data):
         return Project.objects.create(**validated_data)
+
+class DeleteProjectSerializer(serializers.Serializer):
+    def delete(self, validated_data):
+        return Project.objects.delete(**validated_data)
 
 class ProjectDetailSerializer(ProjectSerializer):
     pledges = PledgeSerializer(many=True, read_only=True)
@@ -50,6 +56,9 @@ class ProjectDetailSerializer(ProjectSerializer):
         instance.save()
         return instance
 
-
-
+# class FavoriteSerializer(serializers.ModelSerializer):
+#     project = ProjectSerializer()
+#     class Meta:
+#         model = Favorite
+#         fields = ('id', 'user', 'project', 'created_at')
     
