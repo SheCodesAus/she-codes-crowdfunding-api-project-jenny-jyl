@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from .models import Project
 from .models import Pledge
+from location_field.models.plain import PlainLocationField
+
 
 class PledgeSerializer(serializers.ModelSerializer):
     # id = serializers.ReadOnlyField()
@@ -21,6 +23,9 @@ class ProjectSerializer(serializers.Serializer):
     id = serializers.ReadOnlyField()
     title = serializers.CharField(max_length=200)
     description = serializers.CharField(max_length=None)
+    location=serializers.CharField(max_length=100)
+    organization=serializers.CharField(max_length=200)
+    website=serializers.URLField()
     goal = serializers.IntegerField()
     image = serializers.URLField()
     is_open = serializers.BooleanField()

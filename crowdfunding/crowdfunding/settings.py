@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # 'location_field.apps.DefaultConfig',
+    # 'django_social_share',
 ]
 
 REST_FRAMEWORK = {

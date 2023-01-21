@@ -1,0 +1,10 @@
+MVP
+- sign up / login
+- pledge
+- view project
+- view goal for fund
+
+Additional features
+- share pledge on social media
+- follow for newsletter
+- 

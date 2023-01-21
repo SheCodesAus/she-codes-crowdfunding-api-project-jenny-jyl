@@ -1,10 +1,14 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+# from location_field.models.plain import PlainLocationField
 
 User = get_user_model()
 class Project(models.Model):
     title=models.CharField(max_length=200)
     description=models.TextField()
+    location=models.CharField(max_length=100)
+    organization=models.CharField(max_length=200)
+    website=models.URLField()
     goal=models.IntegerField()
     image=models.URLField()
     is_open=models.BooleanField()
