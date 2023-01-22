@@ -1,9 +1,8 @@
 from rest_framework import serializers
 from .models import Project
 from .models import Pledge
-from .models import Favorite
 from location_field.models.plain import PlainLocationField
-
+from users.serializers import CustomUserSerializer
 
 class PledgeSerializer(serializers.ModelSerializer):
     # id = serializers.ReadOnlyField()
@@ -32,7 +31,6 @@ class ProjectSerializer(serializers.Serializer):
     is_open = serializers.BooleanField()
     date_created = serializers.DateTimeField(read_only=True)
     owner = serializers.ReadOnlyField(source='owner.id')
-    # is_favorite=serializers.ManyRelatedField()
 
     def create(self, validated_data):
         return Project.objects.create(**validated_data)
@@ -43,7 +41,8 @@ class DeleteProjectSerializer(serializers.Serializer):
 
 class ProjectDetailSerializer(ProjectSerializer):
     pledges = PledgeSerializer(many=True, read_only=True)
-
+    liked_by = CustomUserSerializer(many=True, read_only=True)
+    
     def update(self, instance, validated_data):
         instance.title = validated_data.get('title', instance.title)
         # saying new instance title should be whatever we get from validated_data under the title column, but if we didn't get anything, use instance.title
@@ -56,9 +55,5 @@ class ProjectDetailSerializer(ProjectSerializer):
         instance.save()
         return instance
 
-# class FavoriteSerializer(serializers.ModelSerializer):
-#     project = ProjectSerializer()
-#     class Meta:
-#         model = Favorite
-#         fields = ('id', 'user', 'project', 'created_at')
+
     

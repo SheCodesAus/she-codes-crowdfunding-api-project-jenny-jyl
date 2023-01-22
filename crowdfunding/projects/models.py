@@ -14,19 +14,17 @@ class Project(models.Model):
     goal=models.IntegerField()
     image=models.URLField()
     is_open=models.BooleanField()
-    # is_favorite=models.ManyToManyField(User)
     date_created=models.DateTimeField(auto_now_add=True)
     owner = models.ForeignKey(
         User,
         on_delete = models.CASCADE,
         related_name='owner_projects'
     )
+    liked_by = models.ManyToManyField(
+        User,
+        related_name='liked_projects'
+    )
 # on_delete = models.CASCADE means that if user is deleted, then all projects and info on user gets deleted
-
-# class Favorite(models.Model):
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#     project = models.ForeignKey(Project, on_delete=models.CASCADE)
-#     created_at = models.DateTimeField(auto_now_add=True)
 
 class Pledge(models.Model):
     amount=models.IntegerField()
@@ -44,7 +42,4 @@ class Pledge(models.Model):
         related_name='supporter_pledges'
     )
 
-class Favorite(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
+

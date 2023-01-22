@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import Project, Pledge, Favorite
+from .models import Project, Pledge
 from .serializers import ProjectSerializer, PledgeSerializer, ProjectDetailSerializer, DeleteProjectSerializer
 from django.http import Http404
 from rest_framework import status, generics, permissions
@@ -86,16 +86,6 @@ class DeleteProject(APIView):
             raise Http404
 
 
-
-# class FavoriteList(APIView):
-#     queryset = Favorite.objects.all()
-#     serializer_class = FavoriteSerializer
-
-#     def get(self, request):
-#         user = request.user
-#         queryset = self.queryset.filter(user=user)
-#         serializer = self.get_serializer(queryset, many=True)
-#         return Response(serializer.data)
 
 
 
