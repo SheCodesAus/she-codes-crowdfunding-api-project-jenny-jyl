@@ -24,7 +24,11 @@ class Project(models.Model):
         User,
         related_name='liked_projects'
     )
+    @property
+    def total(self):
+        return self.pledges.aggregate(sum=models.Sum('amount'))['sum']
 # on_delete = models.CASCADE means that if user is deleted, then all projects and info on user gets deleted
+
 
 class Pledge(models.Model):
     amount=models.IntegerField()
