@@ -4,6 +4,7 @@ from .models import Pledge
 from location_field.models.plain import PlainLocationField
 from users.serializers import CustomUserSerializer
 
+
 class PledgeSerializer(serializers.ModelSerializer):
     # id = serializers.ReadOnlyField()
     # amount = serializers.IntegerField()
@@ -26,12 +27,15 @@ class ProjectSerializer(serializers.Serializer):
     location=serializers.CharField(max_length=100)
     organization=serializers.CharField(max_length=200)
     website=serializers.URLField()
-    goal = serializers.IntegerField()
+    goal = serializers.FloatField()
     image = serializers.URLField()
     is_open = serializers.BooleanField()
     date_created = serializers.DateTimeField(read_only=True)
     owner = serializers.ReadOnlyField(source='owner.id')
     total = serializers.ReadOnlyField()
+    class Meta:
+        model = Project
+        fields = ('id', 'title', 'description', 'liked_by')
 
     def create(self, validated_data):
         return Project.objects.create(**validated_data)

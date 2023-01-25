@@ -85,30 +85,24 @@ class DeleteProject(APIView):
         except Project.DoesNotExist:
             raise Http404
 
+class FavouritedProjectList(APIView):
+    permission_classes=[permissions.IsAuthenticatedOrReadOnly]
+    queryset = Project.objects.all()
 
+    def get_queryset(self):
+        user = self.request.user
+        return Project.objects.filter(liked_by=user)
 
+class FavoriteProject(APIView):
+    def post(self, request, pk):
+        project = self.get_object()
+        project.liked_by.add(request.user)
+        project.save()
+        return Response({'status': 'favorite added'})
 
-
-
-
-
-
-    # def get(self, request):
-    #     pledges = Pledge.objects.all()
-    #     serializer = PledgeSerializer(pledges, many=True)
-    #     return Response(serializer.data)
-    
-    # def post(self, request):
-    #     serializer = PledgeSerializer(data=request.data)
-    #     if serializer.is_valid():
-    #         serializer.save()
-    #         return Response(
-    #             serializer.data,
-    #             status=status.HTTP_201_CREATED
-    #         )
-    #     return Response(
-    #         serializer.errors,
-    #         status=status.HTTP_400_BAD_REQUEST
-    #     )
-       
-        
+class UnfavoriteProject(APIView):
+    def post(self, request, pk):
+        project = self.get_object()
+        project.liked_by.remove(request.user)
+        project.save()
+        return Response({'status': 'favorite removed'})

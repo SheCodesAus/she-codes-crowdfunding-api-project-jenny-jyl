@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import CustomUser
 from datetime import datetime
-from dateutil.relativedelta import relativedelta, MO
+# from dateutil.relativedelta import relativedelta, MO
 
 class CustomUserSerializer(serializers.Serializer):
     id = serializers.ReadOnlyField()
@@ -9,7 +9,6 @@ class CustomUserSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField(write_only = True)
     # date_of_birthday = serializers.DateField()
-
     # def validate_date_of_birthday(self, validated_data):
     #     age = relativedelta(datetime.now(), date_of_birthday).years
     #     if age < 18:

@@ -11,7 +11,7 @@ class Project(models.Model):
     location=models.CharField(max_length=100)
     organization=models.CharField(max_length=200)
     website=models.URLField()
-    goal=models.IntegerField()
+    goal=models.FloatField()
     image=models.URLField()
     is_open=models.BooleanField()
     date_created=models.DateTimeField(auto_now_add=True)
