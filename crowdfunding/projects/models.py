@@ -31,7 +31,7 @@ class Project(models.Model):
 
 
 class Pledge(models.Model):
-    amount=models.IntegerField()
+    amount=models.FloatField()
     comment=models.CharField(max_length=300)
     anonymous=models.BooleanField()
     project=models.ForeignKey(
